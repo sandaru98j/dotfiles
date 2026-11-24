@@ -1,0 +1,110 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 26,
+    "spacing": 4,
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+
+    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+    "modules-center": ["clock"],
+    "modules-right": [
+        "backlight",
+        "pulseaudio",
+        "network",
+        "bluetooth",
+        "cpu",
+        "memory",
+        "battery"
+    ],
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "on-scroll-up": "hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = \"e+1\" }))'",
+        "on-scroll-down": "hyprctl eval 'hl.dispatch(hl.dsp.focus({ workspace = \"e-1\" }))'",
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+
+    "hyprland/submap": {
+        "format": "󰩨 {}",
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "󰃭 {:%a %d %b  󰥔 %H:%M}",
+        "tooltip-format": "<tt>{calendar}</tt>"
+    },
+
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "on-scroll-up": "brightnessctl -e4 -n2 set 5%+",
+        "on-scroll-down": "brightnessctl -e4 -n2 set 5%-",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 MUTE",
+        "format-icons": {
+            "headphone": "󰋋",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "kitty -e pulsemixer",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip-format": "{desc} ({volume}%)"
+    },
+
+    "network": {
+        "format-wifi": "󰤨 {essid}",
+        "format-ethernet": "󰈀 {ifname}",
+        "format-disconnected": "󰤭 OFF",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) — {ipaddr}",
+        "tooltip-format-ethernet": "{ifname} — {ipaddr}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "kitty -e iwctl"
+    },
+
+    "bluetooth": {
+        "format": "󰂯 {status}",
+        "format-on": "󰂯 ON",
+        "format-off": "󰂲 OFF",
+        "format-disabled": "󰂲 OFF",
+        "format-connected": "󰂱 {device_alias}",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "on-click": "kitty -e bluetoothctl"
+    },
+
+    "cpu": {
+        "interval": 3,
+        "format": " {usage}%",
+        "tooltip": false
+    },
+
+    "memory": {
+        "interval": 3,
+        "format": " {percentage}%",
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip-format": "{timeTo} ({power}W)"
+    }
+}

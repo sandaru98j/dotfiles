@@ -1,0 +1,6 @@
+# Editor / temporary files
+*~
+*.swp
+*.swo
+*.bak
+.DS_Store
