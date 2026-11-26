@@ -1,5 +1,5 @@
 # Mako Notification Daemon — Authentic Dracula Theme
-font=JetBrainsMono Nerd Font 10.5
+font=JetBrains Mono 10.5
 background-color=#282A36
 text-color=#F8F8F2
 border-color=#BD93F9
@@ -17,8 +17,7 @@ max-visible=4
 sort=-time
 layer=overlay
 anchor=top-right
-icons=1
-icon-path=/usr/share/icons/Papirus-Dark
+icons=0
 
 [urgency=low]
 border-color=#6272A4

@@ -1,0 +1,29 @@
+#!/bin/sh
+# shot — Minimal POSIX Wayland screenshot utility (grim + slurp + wl-clipboard)
+
+set -eu
+
+DIR="${HOME}/Pictures/Screenshots"
+mkdir -p "$DIR"
+FILE="${DIR}/$(date +%Y-%m-%d_%H-%M-%S).png"
+
+case "${1:-select}" in
+    full)
+        grim "$FILE"
+        ;;
+    select)
+        GEOM=$(slurp) || exit 0
+        [ -n "$GEOM" ] || exit 0
+        grim -g "$GEOM" "$FILE"
+        ;;
+    *)
+        printf 'Usage: %s [select|full]\n' "${0##*/}" >&2
+        exit 1
+        ;;
+esac
+
+wl-copy -t image/png < "$FILE"
+
+if command -v notify-send >/dev/null 2>&1; then
+    notify-send -a "shot" -t 2500 "Screenshot" "Screenshot saved & copied to clipboard"
+fi

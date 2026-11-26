@@ -33,7 +33,6 @@ hl.env("PATH", home .. "/.local/bin:" .. (os.getenv("PATH") or "/usr/local/bin:/
 ---- AUTOSTART ----
 -------------------
 hl.on("hyprland.start", function()
-    hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
     hl.exec_cmd("hyprpaper")
@@ -89,9 +88,13 @@ hl.config({
         disable_hyprland_logo    = true,
         disable_splash_rendering = true,
         background_color         = theme.background,
-        font_family              = "JetBrainsMono Nerd Font",
-        splash_font_family       = "JetBrainsMono Nerd Font",
+        font_family              = "JetBrains Mono",
+        splash_font_family       = "JetBrains Mono",
         animate_manual_resizes   = false,
+    },
+
+    xwayland = {
+        enabled = false,
     },
 
     layers = {
@@ -125,6 +128,12 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", actio
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + SHIFT + T", hl.dsp.exec_cmd(home .. "/.local/bin/theme-switch"))
 hl.bind(mainMod .. " + M", hl.dsp.exit())
+
+-- Screenshots (grim + slurp + wl-clipboard)
+hl.bind("Print",                       hl.dsp.exec_cmd(home .. "/.local/bin/shot select"))
+hl.bind("SHIFT + Print",               hl.dsp.exec_cmd(home .. "/.local/bin/shot full"))
+hl.bind(mainMod .. " + Print",         hl.dsp.exec_cmd(home .. "/.local/bin/shot select"))
+hl.bind(mainMod .. " + SHIFT + Print", hl.dsp.exec_cmd(home .. "/.local/bin/shot full"))
 
 -- Move focus (Vim directions)
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
@@ -174,17 +183,4 @@ hl.window_rule({
     name  = "suppress-maximize-events",
     match = { class = ".*" },
     suppress_event = "maximize",
-})
-
-hl.window_rule({
-    name  = "fix-xwayland-drags",
-    match = {
-        class      = "^$",
-        title      = "^$",
-        xwayland   = true,
-        float      = true,
-        fullscreen = false,
-        pin        = false,
-    },
-    no_focus = true,
 })
