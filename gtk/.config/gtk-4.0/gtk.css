@@ -1,0 +1,71 @@
+/* =============================================================================
+ * GTK4 / Libadwaita Theme (File-Roller & GTK4 Apps) — Nord & Dracula Rice
+ * Colors synced live by ~/.local/bin/theme-switch via colors.css symlink
+ * ============================================================================= */
+
+@import url("colors.css");
+
+@define-color accent_color @accent;
+@define-color accent_bg_color @accent;
+@define-color accent_fg_color @bg_dark;
+
+@define-color destructive_color @red;
+@define-color destructive_bg_color @red;
+@define-color destructive_fg_color @bg_dark;
+
+@define-color success_color @green;
+@define-color success_bg_color @green;
+@define-color success_fg_color @bg_dark;
+
+@define-color warning_color @yellow;
+@define-color warning_bg_color @yellow;
+@define-color warning_fg_color @bg_dark;
+
+@define-color error_color @red;
+@define-color error_bg_color @red;
+@define-color error_fg_color @bg_dark;
+
+@define-color window_bg_color @bg;
+@define-color window_fg_color @fg;
+
+@define-color view_bg_color @bg;
+@define-color view_fg_color @fg;
+
+@define-color headerbar_bg_color @bg_dark;
+@define-color headerbar_fg_color @fg;
+@define-color headerbar_border_color @surface;
+@define-color headerbar_backdrop_color @bg_dark;
+@define-color headerbar_shade_color rgba(0, 0, 0, 0.25);
+
+@define-color sidebar_bg_color @bg_dark;
+@define-color sidebar_fg_color @fg;
+@define-color sidebar_backdrop_color @bg_dark;
+@define-color sidebar_shade_color rgba(0, 0, 0, 0.25);
+
+@define-color card_bg_color @surface;
+@define-color card_fg_color @fg;
+
+@define-color dialog_bg_color @bg;
+@define-color dialog_fg_color @fg;
+
+@define-color popover_bg_color @bg_dark;
+@define-color popover_fg_color @fg;
+
+@define-color shade_color rgba(0, 0, 0, 0.3);
+@define-color scrollbar_outline_color @surface;
+
+/* Sharp flat look matching Hyprland (rounding=0) */
+window,
+headerbar,
+button,
+entry,
+popover > contents,
+dialog,
+.card,
+.boxed-list,
+.boxed-list > row,
+row,
+list,
+toast {
+    border-radius: 0;
+}

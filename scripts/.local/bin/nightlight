@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# nightlight — Toggle warm blue-light filter via hyprsunset (4200K)
+
+set -euo pipefail
+
+TEMP="${1:-4200}"
+
+if ! command -v hyprsunset >/dev/null 2>&1; then
+    notify-send -a "nightlight" "hyprsunset not installed" "Run: sudo pacman -S hyprsunset" 2>/dev/null || true
+    exit 1
+fi
+
+if pgrep -x hyprsunset >/dev/null 2>&1; then
+    pkill -x hyprsunset
+    notify-send -a "nightlight" -t 1800 "Night Light" "Off (normal color temperature)" 2>/dev/null || true
+else
+    setsid -f hyprsunset -t "$TEMP" >/dev/null 2>&1
+    notify-send -a "nightlight" -t 1800 "Night Light" "On (${TEMP}K)" 2>/dev/null || true
+fi

@@ -76,7 +76,26 @@ tooltip label {
     color: @fg_bright;
 }
 
+/* Media & Newsboat pills */
+#custom-media {
+    padding: 0 8px;
+    margin: 2px 0 2px 6px;
+    background-color: alpha(@surface, 0.85);
+    color: @accent;
+}
+
+#custom-media.paused {
+    color: @muted;
+}
+
+#custom-media.stopped {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
 /* Right modules - crisp flat pills with subtle translucent surface */
+#custom-news,
 #backlight,
 #pulseaudio,
 #network,
@@ -88,6 +107,16 @@ tooltip label {
     margin: 2px 0;
     background-color: alpha(@surface, 0.85);
     color: @fg;
+}
+
+#custom-news {
+    color: @accent;
+}
+
+#custom-news.empty {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
 }
 
 #backlight {

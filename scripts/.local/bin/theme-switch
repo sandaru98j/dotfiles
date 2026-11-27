@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # theme-switch — Instant live theme switcher (Nord <-> Dracula)
-# Syncs: Hyprland borders, Waybar, Foot, Fuzzel, Mako, and Hyprpaper.
+# Syncs: Hyprland borders, Hyprlock, Waybar, Foot, Fuzzel, Mako, Zathura, GTK/Thunar, and Hyprpaper.
 
 set -euo pipefail
 
@@ -29,6 +29,9 @@ case "${1:-toggle}" in
             TARGET="nord"
         fi
         ;;
+    apply|sync)
+        TARGET="$CURRENT"
+        ;;
     nord|dracula)
         TARGET="$1"
         ;;
@@ -37,7 +40,7 @@ case "${1:-toggle}" in
         exit 0
         ;;
     *)
-        echo "Usage: $(basename "$0") [toggle|nord|dracula|status]" >&2
+        echo "Usage: $(basename "$0") [toggle|apply|nord|dracula|status]" >&2
         exit 1
         ;;
 esac
@@ -65,8 +68,11 @@ fi
 # 1. Persist state
 printf '%s\n' "$TARGET" > "$STATE_FILE"
 
-# 2. Hyprland (persistent Lua theme + live border update)
+# 2. Hyprland & Hyprlock (persistent Lua theme + live border update)
 ln -sfn "$CONF_DIR/hypr/themes/$TARGET.lua" "$CONF_DIR/hypr/theme.lua"
+if [[ -f "$CONF_DIR/hypr/themes/hyprlock-$TARGET.conf" ]]; then
+    ln -sfn "$CONF_DIR/hypr/themes/hyprlock-$TARGET.conf" "$CONF_DIR/hypr/hyprlock-theme.conf"
+fi
 if command -v hyprctl >/dev/null 2>&1 && hyprctl instances >/dev/null 2>&1; then
     hyprctl eval "hl.config({ general = { col = { active_border = '$HYPR_ACTIVE', inactive_border = '$HYPR_INACTIVE' } }, misc = { background_color = '$HYPR_BG' } })" \
         >/dev/null 2>&1 || hyprctl reload config-only >/dev/null 2>&1 || true
@@ -97,7 +103,20 @@ if pgrep -x mako >/dev/null 2>&1 && command -v makoctl >/dev/null 2>&1; then
     makoctl reload >/dev/null 2>&1 || true
 fi
 
-# 7. Hyprpaper (persist hyprpaper.conf + live IPC switch)
+# 7. Zathura (symlink dark recolor palette — applied on next open)
+if [[ -f "$CONF_DIR/zathura/themes/$TARGET" ]]; then
+    ln -sfn "$CONF_DIR/zathura/themes/$TARGET" "$CONF_DIR/zathura/theme"
+fi
+
+# 8. GTK3 & GTK4 / Thunar / File-Roller (symlink CSS palette — applied on next launch)
+if [[ -f "$CONF_DIR/gtk-3.0/themes/$TARGET.css" ]]; then
+    ln -sfn "$CONF_DIR/gtk-3.0/themes/$TARGET.css" "$CONF_DIR/gtk-3.0/colors.css"
+fi
+if [[ -f "$CONF_DIR/gtk-4.0/themes/$TARGET.css" ]]; then
+    ln -sfn "$CONF_DIR/gtk-4.0/themes/$TARGET.css" "$CONF_DIR/gtk-4.0/colors.css"
+fi
+
+# 9. Hyprpaper (persist hyprpaper.conf + live IPC switch)
 if [[ -n "$WALLPAPER" && -f "$WALLPAPER" ]]; then
     cat > "$CONF_DIR/hypr/hyprpaper.conf" <<EOF
 # Hyprpaper Configuration (v0.8+ block syntax)
@@ -117,7 +136,7 @@ EOF
     fi
 fi
 
-# 8. Notify user if notify-send is available
+# 10. Notify user if notify-send is available
 if command -v notify-send >/dev/null 2>&1; then
-    notify-send -a "theme-switch" -t 2500 "Theme: $LABEL" "Switched Hyprland, Waybar, Foot, Fuzzel, Mako & Wallpaper" 2>/dev/null || true
+    notify-send -a "theme-switch" -t 2500 "Theme: $LABEL" "Switched Hyprland, Hyprlock, Waybar, Foot, Fuzzel, Mako, Zathura, GTK/Thunar & Wallpaper" 2>/dev/null || true
 fi

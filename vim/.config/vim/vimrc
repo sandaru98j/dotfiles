@@ -1,0 +1,96 @@
+" =============================================================================
+" Minimal Zero-Plugin Vim Configuration (XDG-clean, Nord/Dracula 16-color)
+" =============================================================================
+
+set nocompatible
+filetype plugin indent on
+syntax enable
+
+" --- XDG State Directories (keep $HOME clean) ---
+let s:state_dir = empty($XDG_STATE_HOME) ? expand('~/.local/state') : $XDG_STATE_HOME
+let s:vim_state = s:state_dir . '/vim'
+if !isdirectory(s:vim_state . '/undo')
+  call mkdir(s:vim_state . '/undo', 'p', 0700)
+endif
+execute 'set viminfofile=' . fnameescape(s:vim_state . '/viminfo')
+execute 'set undodir=' . fnameescape(s:vim_state . '/undo//')
+set undofile
+set nobackup
+set noswapfile
+
+" --- UI & Ergonomics ---
+set encoding=utf-8
+set number
+set relativenumber
+set cursorline
+set scrolloff=5
+set sidescrolloff=5
+set showcmd
+set wildmenu
+set wildmode=longest:full,full
+set laststatus=2
+set splitbelow
+set splitright
+set hidden
+set mouse=a
+set updatetime=300
+set timeoutlen=400
+
+" --- Indentation & Whitespace ---
+set expandtab
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set smartindent
+set autoindent
+set backspace=indent,eol,start
+
+" --- Search ---
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+
+" --- 16-Color Terminal Palette (adapts automatically to foot Nord/Dracula) ---
+set background=dark
+set notermguicolors
+colorscheme default
+
+highlight Normal       ctermbg=NONE
+highlight NonText      ctermbg=NONE ctermfg=8
+highlight LineNr       ctermbg=NONE ctermfg=8
+highlight CursorLineNr ctermbg=NONE ctermfg=6 cterm=bold
+highlight CursorLine   ctermbg=0    cterm=NONE
+highlight Visual       ctermbg=4    ctermfg=0
+highlight Search       ctermbg=3    ctermfg=0
+highlight IncSearch    ctermbg=6    ctermfg=0
+highlight StatusLine   ctermbg=0    ctermfg=6 cterm=bold
+highlight StatusLineNC ctermbg=0    ctermfg=8 cterm=NONE
+highlight VertSplit    ctermbg=NONE ctermfg=0
+highlight Pmenu        ctermbg=0    ctermfg=7
+highlight PmenuSel     ctermbg=6    ctermfg=0 cterm=bold
+highlight Comment      ctermfg=8    cterm=italic
+
+" Clean minimal statusline
+set statusline=\ %f%m%r\ %=%y\ \|\ %l:%c\ (%p%%)\ 
+
+" --- Leader & Keybindings ---
+let mapleader = " "
+
+" Clear search highlight
+nnoremap <silent> <leader><space> :nohlsearch<CR>
+
+" Quick window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Wayland clipboard (wl-copy / wl-paste)
+if executable('wl-copy')
+  vnoremap <silent> <leader>y :w !wl-copy -n<CR><CR>
+  nnoremap <silent> <leader>Y :.w !wl-copy -n<CR><CR>
+endif
+if executable('wl-paste')
+  nnoremap <silent> <leader>p :r !wl-paste -n<CR>
+endif

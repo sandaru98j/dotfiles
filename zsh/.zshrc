@@ -6,7 +6,7 @@ export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 
 # Keep tool state/data out of $HOME
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-export VIMINIT="set viminfofile=$XDG_STATE_HOME/vim/viminfo"
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # Zsh history in XDG_STATE_HOME
 HISTFILE="$XDG_STATE_HOME/zsh/history"
@@ -100,6 +100,18 @@ n() {
     rm -f -- "$NNN_TMPFILE" > /dev/null
   fi
 }
+
+# =============================================================================
+# fzf & zoxide (loaded cleanly if installed)
+# =============================================================================
+if (( $+commands[fzf] )); then
+  export FZF_DEFAULT_OPTS="--height=45% --layout=reverse --border=sharp --color=16,prompt:6,pointer:6,marker:2,hl:4,hl+:6,info:8,border:0,bg+:0"
+  source <(fzf --zsh)
+fi
+
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+fi
 
 # Minimal, snappy prompt (zero git-status latency)
 PS1='%F{cyan}%n%f@%F{blue}%m%f %F{magenta}%~%f %F{white}%#%f '

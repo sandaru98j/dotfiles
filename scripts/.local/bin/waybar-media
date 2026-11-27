@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# waybar-media — Minimal now-playing pill for Waybar (cmus first, fallback playerctl)
+
+set -euo pipefail
+
+truncate_str() {
+    local s="$1" max="${2:-34}"
+    if (( ${#s} > max )); then
+        printf '%s…' "${s:0:$((max - 1))}"
+    else
+        printf '%s' "$s"
+    fi
+}
+
+json_escape() {
+    local s="$1"
+    s="${s//\\/\\\\}"
+    s="${s//\"/\\\"}"
+    s="${s//$'\n'/ }"
+    printf '%s' "$s"
+}
+
+emit() {
+    local text="$1" tooltip="$2" cls="$3"
+    printf '{"text":"%s","tooltip":"%s","class":"%s"}\n' \
+        "$(json_escape "$text")" "$(json_escape "$tooltip")" "$(json_escape "$cls")"
+}
+
+# 1. Check cmus
+if command -v cmus-remote >/dev/null 2>&1 && info="$(cmus-remote -Q 2>/dev/null)"; then
+    status="$(awk '$1=="status"{print $2; exit}' <<< "$info")"
+    if [[ "$status" == "playing" || "$status" == "paused" ]]; then
+        artist="$(awk '$1=="tag" && $2=="artist"{sub(/^tag artist /,""); print; exit}' <<< "$info")"
+        title="$(awk '$1=="tag" && $2=="title"{sub(/^tag title /,""); print; exit}' <<< "$info")"
+        if [[ -z "$title" ]]; then
+            file="$(awk '$1=="file"{sub(/^file /,""); print; exit}' <<< "$info")"
+            title="$(basename -- "${file%.*}")"
+        fi
+        label="${artist:+$artist - }$title"
+        icon="󰎈"
+        [[ "$status" == "paused" ]] && icon="󰏤"
+        emit "$icon $(truncate_str "$label" 34)" "cmus ($status): $label" "$status"
+        exit 0
+    fi
+fi
+
+# 2. Fallback to playerctl (mpv / firefox / mpd-mpris)
+if command -v playerctl >/dev/null 2>&1; then
+    status="$(playerctl status 2>/dev/null || true)"
+    if [[ "$status" == "Playing" || "$status" == "Paused" ]]; then
+        label="$(playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null || true)"
+        label="${label# - }"
+        label="${label% - }"
+        [[ -n "$label" ]] || exit 0
+        icon="󰎈"
+        cls="playing"
+        if [[ "$status" == "Paused" ]]; then
+            icon="󰏤"
+            cls="paused"
+        fi
+        emit "$icon $(truncate_str "$label" 34)" "$status: $label" "$cls"
+        exit 0
+    fi
+fi
+
+# Nothing playing — stay hidden
+printf '{"text":"","class":"stopped"}\n'

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1732695600000001-1</unique-id>
+	<command>footclient -D %f</command>
+	<description>Open Foot terminal in this directory</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>accessories-text-editor</icon>
+	<name>Edit in Vim</name>
+	<submenu></submenu>
+	<unique-id>1732695600000003-3</unique-id>
+	<command>footclient -e vim %F</command>
+	<description>Open selected text files in Vim</description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<text-files/>
+</action>
+<action>
+	<icon>dialog-password</icon>
+	<name>Edit as Admin (sudoedit)</name>
+	<submenu></submenu>
+	<unique-id>1732695600000004-4</unique-id>
+	<command>footclient -e sudoedit %f</command>
+	<description>Edit file with root privileges using sudoedit</description>
+	<range>1</range>
+	<patterns>*</patterns>
+	<text-files/>
+</action>
+<action>
+	<icon>edit-copy</icon>
+	<name>Copy Full Path</name>
+	<submenu></submenu>
+	<unique-id>1732695600000005-5</unique-id>
+	<command>sh -c 'printf %s "$1" | wl-copy' _ %f</command>
+	<description>Copy full file or folder path to Wayland clipboard</description>
+	<range>1</range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+</actions>

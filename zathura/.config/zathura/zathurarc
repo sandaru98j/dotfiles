@@ -1,0 +1,27 @@
+# Zathura Configuration — Minimal Dark Reader (Nord / Dracula via theme-switch)
+
+set selection-clipboard clipboard
+set statusbar-home-tilde true
+set window-title-basename true
+set adjust-open width
+set scroll-step 60
+set guioptions ""
+set font "JetBrains Mono 10"
+
+# Dark recolor mode by default (press Ctrl+R to toggle original colors)
+set recolor true
+set recolor-keephue true
+set recolor-reverse-video true
+
+# Vim-friendly navigation
+map u scroll half-up
+map d scroll half-down
+map D toggle_page_mode
+map r reload
+map R rotate
+map K zoom in
+map J zoom out
+map i recolor
+
+# Active theme (symlinked by ~/.local/bin/theme-switch)
+include theme

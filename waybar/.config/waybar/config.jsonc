@@ -7,9 +7,10 @@
     "margin-left": 0,
     "margin-right": 0,
 
-    "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+    "modules-left": ["hyprland/workspaces", "hyprland/submap", "custom/media"],
     "modules-center": ["clock"],
     "modules-right": [
+        "custom/news",
         "backlight",
         "pulseaudio",
         "network",
@@ -32,6 +33,23 @@
     "hyprland/submap": {
         "format": "󰩨 {}",
         "tooltip": false
+    },
+
+    "custom/media": {
+        "exec": "~/.local/bin/waybar-media",
+        "return-type": "json",
+        "interval": 3,
+        "on-click": "sh -c 'cmus-remote -u 2>/dev/null || playerctl play-pause'",
+        "on-click-right": "sh -c 'cmus-remote -n 2>/dev/null || playerctl next'",
+        "tooltip": true
+    },
+
+    "custom/news": {
+        "exec": "~/.local/bin/waybar-news",
+        "return-type": "json",
+        "interval": 60,
+        "on-click": "hyprctl eval 'hl.dispatch(hl.dsp.workspace.toggle_special(\"news\"))'",
+        "tooltip": true
     },
 
     "clock": {

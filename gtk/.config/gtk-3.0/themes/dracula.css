@@ -1,0 +1,14 @@
+/* Authentic Dracula Palette for GTK3 */
+@define-color bg        #282A36;
+@define-color bg_dark   #21222C;
+@define-color surface   #44475A;
+@define-color surface2  #383A59;
+@define-color muted     #6272A4;
+@define-color fg        #F8F8F2;
+@define-color fg_dim    #A5B0D6;
+@define-color fg_bright #FFFFFF;
+@define-color accent    #BD93F9;
+@define-color blue      #8BE9FD;
+@define-color red       #FF5555;
+@define-color yellow    #F1FA8C;
+@define-color green     #50FA7B;

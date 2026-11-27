@@ -18,11 +18,14 @@ PACKAGES=(
     hypr
     mako
     mpv
-    neofetch
+    newsboat
     nnn
     scripts
+    thunar
+    vim
     waybar
     xdg
+    zathura
     zsh
 )
 

@@ -1,0 +1,53 @@
+# Newsboat Configuration — Minimal Nord / Vim Setup
+
+# --- Reloading ---
+auto-reload yes
+reload-time 15
+reload-threads 4
+download-timeout 15
+
+# --- Browser ---
+browser "firefox %u"
+
+# --- Read / Unread Filtering ---
+# Hide read feeds by default; press L to toggle read feeds/articles
+show-read-feeds no
+show-read-articles yes
+cleanup-on-quit yes
+
+# --- Vim-Style Keybindings ---
+unbind-key j
+unbind-key k
+unbind-key g
+unbind-key G
+unbind-key l
+unbind-key h
+unbind-key L
+
+bind-key j down
+bind-key k up
+bind-key g home
+bind-key G end
+bind-key l open
+bind-key h quit
+bind-key r reload
+bind-key R reload-all
+bind-key L toggle-show-read-feeds
+
+# --- Nord-Inspired Dark Color Scheme ---
+# Uses terminal 16-color Nord palette (adapts cleanly to foot's Nord/Dracula themes)
+color background          default default
+color listnormal          color7  default
+color listnormal_unread   color6  default bold
+color listfocus           color0  color4
+color listfocus_unread    color0  color6  bold
+color info                color6  color0  bold
+color article             default default
+color end-of-text-marker  color8  default
+
+# --- Article Highlights ---
+highlight article "^(Feed|Title|Author|Link|Date):.*$" color6 default bold
+highlight article "https?://[^ ]+"                     color4 default underline
+highlight article "\\[[0-9]+\\]"                       color2 default bold
+highlight article "\\[image\\ [0-9]+\\]"               color3 default bold
+highlight feedlist "^---.*---$"                        color8 default bold

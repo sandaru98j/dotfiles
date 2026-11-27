@@ -1,0 +1,478 @@
+/* =============================================================================
+ * GTK3 / Thunar Theme — KISS / Suckless Flat Nord & Dracula Rice
+ * Colors synced live by ~/.local/bin/theme-switch via colors.css symlink
+ * ============================================================================= */
+
+@import url("colors.css");
+
+/* Override Adwaita-dark semantic named colors */
+@define-color theme_bg_color @bg;
+@define-color theme_fg_color @fg;
+@define-color theme_base_color @bg;
+@define-color theme_text_color @fg;
+@define-color theme_selected_bg_color @surface;
+@define-color theme_selected_fg_color @fg_bright;
+@define-color insensitive_bg_color @bg_dark;
+@define-color insensitive_fg_color @muted;
+@define-color insensitive_base_color @bg_dark;
+@define-color theme_unfocused_bg_color @bg;
+@define-color theme_unfocused_fg_color @fg_dim;
+@define-color theme_unfocused_base_color @bg;
+@define-color theme_unfocused_text_color @fg_dim;
+@define-color theme_unfocused_selected_bg_color @surface;
+@define-color theme_unfocused_selected_fg_color @fg;
+@define-color borders @surface;
+@define-color unfocused_borders @surface;
+@define-color warning_color @yellow;
+@define-color error_color @red;
+@define-color success_color @green;
+@define-color content_view_bg @bg;
+
+/* Global sharp flat look matching Hyprland (rounding=0) & Waybar */
+* {
+    border-radius: 0;
+    -gtk-icon-shadow: none;
+    text-shadow: none;
+    outline-color: alpha(@accent, 0.7);
+    outline-style: solid;
+    outline-offset: -1px;
+    outline-width: 1px;
+}
+
+window,
+dialog,
+.background {
+    background-color: @bg;
+    color: @fg;
+}
+
+/* Headerbar / Titlebar */
+headerbar,
+.titlebar {
+    background-color: @bg_dark;
+    background-image: none;
+    color: @fg;
+    border-bottom: 1px solid @surface;
+    box-shadow: none;
+    min-height: 30px;
+    padding: 0 6px;
+}
+
+headerbar:backdrop,
+.titlebar:backdrop {
+    background-color: @bg_dark;
+    color: @fg_dim;
+}
+
+/* Menubar & Context Menus */
+menubar,
+.menubar {
+    background-color: @bg_dark;
+    color: @fg;
+    border-bottom: 1px solid @surface;
+    box-shadow: none;
+    padding: 0 2px;
+}
+
+menubar > menuitem {
+    padding: 4px 8px;
+    color: @fg;
+}
+
+menubar > menuitem:hover {
+    background-color: @surface;
+    color: @accent;
+}
+
+menu,
+.menu,
+.context-menu,
+popover,
+popover.background {
+    background-color: @bg_dark;
+    color: @fg;
+    border: 1px solid @surface2;
+    box-shadow: none;
+    padding: 4px 0;
+}
+
+menu menuitem,
+.menu menuitem,
+.context-menu menuitem {
+    padding: 5px 12px;
+    color: @fg;
+    min-height: 18px;
+}
+
+menu menuitem:hover,
+.menu menuitem:hover,
+.context-menu menuitem:hover {
+    background-color: @surface;
+    color: @fg_bright;
+}
+
+menu menuitem:disabled,
+.menu menuitem:disabled {
+    color: @muted;
+}
+
+menu separator,
+.menu separator,
+separator {
+    background-color: @surface;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+/* Toolbars */
+toolbar,
+.toolbar,
+.primary-toolbar {
+    background-color: @bg_dark;
+    background-image: none;
+    color: @fg;
+    border-bottom: 1px solid @surface;
+    box-shadow: none;
+    padding: 3px 6px;
+}
+
+/* Buttons */
+button {
+    background-color: @surface;
+    background-image: none;
+    color: @fg;
+    border: 1px solid @surface2;
+    box-shadow: none;
+    padding: 4px 10px;
+    min-height: 22px;
+}
+
+button:hover {
+    background-color: @surface2;
+    color: @fg_bright;
+    border-color: @accent;
+}
+
+button:active,
+button:checked {
+    background-color: @surface2;
+    color: @accent;
+    border-color: @accent;
+}
+
+button:disabled {
+    background-color: @bg_dark;
+    color: @muted;
+    border-color: @surface;
+}
+
+button.flat {
+    background-color: transparent;
+    border-color: transparent;
+    color: @fg;
+}
+
+button.flat:hover {
+    background-color: @surface;
+    color: @fg_bright;
+    border-color: transparent;
+}
+
+button.flat:checked,
+button.flat:active {
+    background-color: @surface;
+    color: @accent;
+    border-color: transparent;
+}
+
+button.suggested-action {
+    background-color: @accent;
+    color: @bg_dark;
+    border-color: @accent;
+    font-weight: 700;
+}
+
+button.suggested-action:hover {
+    background-color: @blue;
+    color: @bg_dark;
+    border-color: @blue;
+}
+
+button.destructive-action {
+    background-color: @red;
+    color: @bg_dark;
+    border-color: @red;
+    font-weight: 700;
+}
+
+/* Text Entries / Search / Location Bar */
+entry {
+    background-color: @bg;
+    background-image: none;
+    color: @fg_bright;
+    border: 1px solid @surface2;
+    box-shadow: none;
+    caret-color: @accent;
+    padding: 4px 8px;
+    min-height: 22px;
+}
+
+entry:focus {
+    border-color: @accent;
+    box-shadow: none;
+}
+
+entry selection {
+    background-color: @accent;
+    color: @bg_dark;
+}
+
+/* Views, Lists, Tables (File list & Sidebar) */
+.view,
+iconview,
+treeview.view,
+textview text {
+    background-color: @bg;
+    color: @fg;
+}
+
+treeview.view:hover,
+iconview:hover {
+    background-color: @surface;
+}
+
+.view:selected,
+.view:selected:focus,
+iconview:selected,
+iconview:selected:focus,
+treeview.view:selected,
+treeview.view:selected:focus,
+textview text selection,
+flowboxchild:selected,
+list row:selected {
+    background-color: @surface;
+    color: @fg_bright;
+    border-left: 2px solid @accent;
+}
+
+treeview header button {
+    background-color: @bg_dark;
+    background-image: none;
+    color: @fg_dim;
+    border: none;
+    border-bottom: 1px solid @surface;
+    border-right: 1px solid @surface;
+    padding: 4px 8px;
+    font-weight: 600;
+}
+
+treeview header button:hover {
+    background-color: @surface;
+    color: @fg_bright;
+}
+
+/* =============================================================================
+ * Thunar-Specific Styling
+ * ============================================================================= */
+
+/* Sidebar (Shortcuts / Tree pane) */
+.thunar .sidebar,
+.thunar .shortcuts-pane,
+.thunar .shortcuts-pane .view,
+.thunar .sidebar .view {
+    background-color: @bg_dark;
+    color: @fg;
+    padding: 2px 0;
+}
+
+.thunar .sidebar row,
+.thunar .shortcuts-pane treeview.view {
+    padding: 4px 8px;
+}
+
+.thunar .sidebar row:selected,
+.thunar .shortcuts-pane treeview.view:selected,
+.thunar .sidebar .view:selected {
+    background-color: @surface;
+    color: @accent;
+    font-weight: 600;
+}
+
+.thunar paned > separator {
+    background-color: @surface;
+    min-width: 1px;
+    min-height: 1px;
+}
+
+/* Path Bar (Breadcrumbs) — matches Waybar workspace tabs */
+.thunar toolbar .path-bar button,
+.thunar .location-bar button {
+    background-color: transparent;
+    color: @fg_dim;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 3px 8px;
+    margin: 0 1px;
+}
+
+.thunar toolbar .path-bar button:hover,
+.thunar .location-bar button:hover {
+    background-color: @surface;
+    color: @fg_bright;
+}
+
+.thunar toolbar .path-bar button:checked,
+.thunar .location-bar button:checked {
+    background-color: @surface;
+    color: @accent;
+    border-bottom: 2px solid @accent;
+    font-weight: 600;
+}
+
+/* Tabs */
+notebook > header {
+    background-color: @bg_dark;
+    border-color: @surface;
+}
+
+notebook > header.top {
+    border-bottom: 1px solid @surface;
+}
+
+notebook > header tab {
+    background-color: @bg_dark;
+    color: @fg_dim;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-right: 1px solid @surface;
+    padding: 4px 10px;
+    margin: 0;
+}
+
+notebook > header tab:hover {
+    background-color: @surface;
+    color: @fg_bright;
+}
+
+notebook > header tab:checked {
+    background-color: @bg;
+    color: @accent;
+    border-bottom: 2px solid @accent;
+    font-weight: 600;
+}
+
+notebook > stack {
+    background-color: @bg;
+}
+
+/* Statusbar */
+.thunar statusbar,
+statusbar {
+    background-color: @bg_dark;
+    color: @fg_dim;
+    border-top: 1px solid @surface;
+    padding: 2px 8px;
+    font-size: 9pt;
+}
+
+/* Root / Admin Warning InfoBar */
+infobar.warning,
+.thunar infobar.warning {
+    background-color: @red;
+    color: @bg_dark;
+    border-bottom: 1px solid @surface;
+    font-weight: 700;
+}
+
+infobar.warning label {
+    color: @bg_dark;
+}
+
+infobar.info {
+    background-color: @surface;
+    color: @fg_bright;
+    border-bottom: 1px solid @accent;
+}
+
+/* Thin Flat Scrollbars */
+scrollbar {
+    background-color: @bg_dark;
+    border: none;
+}
+
+scrollbar slider {
+    background-color: @muted;
+    min-width: 6px;
+    min-height: 6px;
+    margin: 2px;
+    border: none;
+}
+
+scrollbar slider:hover {
+    background-color: @blue;
+}
+
+scrollbar slider:active {
+    background-color: @accent;
+}
+
+/* Tooltips */
+tooltip,
+tooltip.background {
+    background-color: @bg_dark;
+    color: @fg_bright;
+    border: 1px solid @accent;
+    box-shadow: none;
+}
+
+tooltip label {
+    color: @fg_bright;
+    padding: 2px 4px;
+}
+
+/* Progress Bars (Copy / Move / Archive dialogs) */
+progressbar trough {
+    background-color: @surface;
+    border: 1px solid @surface2;
+    min-height: 8px;
+}
+
+progressbar progress {
+    background-color: @accent;
+    border: none;
+    min-height: 8px;
+}
+
+/* Checkboxes, Radios, Switches */
+checkbutton check,
+radiobutton radio {
+    background-color: @bg_dark;
+    background-image: none;
+    border: 1px solid @muted;
+    color: @bg_dark;
+    box-shadow: none;
+}
+
+checkbutton check:checked,
+radiobutton radio:checked {
+    background-color: @accent;
+    border-color: @accent;
+    color: @bg_dark;
+}
+
+switch {
+    background-color: @surface;
+    border: 1px solid @surface2;
+    color: @fg;
+}
+
+switch:checked {
+    background-color: @accent;
+    border-color: @accent;
+    color: @bg_dark;
+}
+
+switch slider {
+    background-color: @fg_bright;
+    border: none;
+}

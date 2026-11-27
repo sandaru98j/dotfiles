@@ -1,0 +1,30 @@
+# --- WORLD MARKETS & STOCKS ---
+https://www.bloomberg.com/feeds/markets/news.rss "Markets" "~Bloomberg Markets"
+https://www.bloomberg.com/feeds/economics/news.rss "Markets" "~Bloomberg Economics"
+https://www.investing.com/rss/news.rss "Markets" "~Investing.com"
+# Retired by Yahoo (HTTP 404); ticker-specific feeds still work, e.g. ?s=SPY&region=US&lang=en-US
+# https://finance.yahoo.com/news/rssindex "Markets" "~Yahoo Finance"
+
+# --- FOREX ---
+https://www.fxstreet.com/rss/news "Forex" "~FXStreet News"
+
+# --- CRYPTO ---
+https://www.theblock.co/rss.xml "Crypto" "~The Block"
+https://www.coindesk.com/arc/outboundfeeds/rss/ "Crypto" "~CoinDesk"
+https://www.bloomberg.com/feeds/crypto/news.rss "Crypto" "~Bloomberg Crypto"
+
+# --- TECH & AI ---
+https://www.techmeme.com/feed.xml "Tech" "~Techmeme"
+https://news.ycombinator.com/rss "Tech" "~Hacker News"
+https://www.bloomberg.com/feeds/technology/news.rss "Tech" "~Bloomberg Tech"
+
+# --- US & EUROPE POLITICS ---
+https://www.politico.eu/feed/ "Politics" "~POLITICO Europe"
+https://www.bloomberg.com/feeds/politics/news.rss "Politics" "~Bloomberg Politics"
+
+# --- FAST RUMORS & DESK CHATTER ---
+https://cms.zerohedge.com/fullrss2.xml "Rumors" "~ZeroHedge"
+https://www.bloomberg.com/opinion/authors/ARbTQlRLRjE/matthew-s-levine.rss "Rumors" "~Matt Levine (Money Stuff)"
+
+# --- LINUX ---
+https://archlinux.org/feeds/news/ "Linux" "~Arch Linux News"

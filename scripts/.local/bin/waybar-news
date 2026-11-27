@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# waybar-news — Lightweight Newsboat unread count (read-only SQLite query, lock-safe)
+
+set -euo pipefail
+
+DB="${XDG_DATA_HOME:-$HOME/.local/share}/newsboat/cache.db"
+[[ -r "$DB" ]] || DB="$HOME/.newsboat/cache.db"
+
+if [[ ! -r "$DB" ]] || ! command -v sqlite3 >/dev/null 2>&1; then
+    printf '{"text":"","class":"empty"}\n'
+    exit 0
+fi
+
+count="$(sqlite3 -readonly "file:${DB}?mode=ro" 'SELECT COUNT(*) FROM rss_item WHERE unread = 1;' 2>/dev/null || echo 0)"
+count="${count:-0}"
+
+if [[ "$count" =~ ^[0-9]+$ ]] && (( count > 0 )); then
+    printf '{"text":"󰑫 %s","tooltip":"Newsboat: %s unread articles (click to open)","class":"unread"}\n' "$count" "$count"
+else
+    printf '{"text":"","class":"empty"}\n'
+fi
