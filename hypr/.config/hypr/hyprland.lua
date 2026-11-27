@@ -6,7 +6,7 @@
 local home      = os.getenv("HOME")
 local theme     = dofile(home .. "/.config/hypr/theme.lua")
 
-local terminal  = "kitty"
+local terminal  = "footclient"
 local menu      = "fuzzel"
 local mainMod   = "SUPER"
 
@@ -33,6 +33,7 @@ hl.env("PATH", home .. "/.local/bin:" .. (os.getenv("PATH") or "/usr/local/bin:/
 ---- AUTOSTART ----
 -------------------
 hl.on("hyprland.start", function()
+    hl.exec_cmd("foot --server")
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
     hl.exec_cmd("hyprpaper")

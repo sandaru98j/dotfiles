@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # theme-switch — Instant live theme switcher (Nord <-> Dracula)
-# Syncs: Hyprland borders, Waybar, Kitty, Fuzzel, Mako, and Hyprpaper.
+# Syncs: Hyprland borders, Waybar, Foot, Fuzzel, Mako, and Hyprpaper.
 
 set -euo pipefail
 
@@ -78,10 +78,14 @@ if pgrep -x waybar >/dev/null 2>&1; then
     pkill -SIGUSR2 -x waybar || true
 fi
 
-# 4. Kitty (symlink palette + live reload via SIGUSR1)
-ln -sfn "$CONF_DIR/kitty/themes/$TARGET.conf" "$CONF_DIR/kitty/theme.conf"
-if pgrep -x kitty >/dev/null 2>&1; then
-    pkill -SIGUSR1 -x kitty || true
+# 4. Foot (symlink initial theme + live switch via SIGUSR1=Nord / SIGUSR2=Dracula)
+ln -sfn "$CONF_DIR/foot/themes/$TARGET.ini" "$CONF_DIR/foot/theme.ini"
+if pgrep -x foot >/dev/null 2>&1; then
+    if [[ "$TARGET" == "nord" ]]; then
+        pkill -SIGUSR1 -x foot || true
+    else
+        pkill -SIGUSR2 -x foot || true
+    fi
 fi
 
 # 5. Fuzzel (symlink palette — applied on next launch)
@@ -115,5 +119,5 @@ fi
 
 # 8. Notify user if notify-send is available
 if command -v notify-send >/dev/null 2>&1; then
-    notify-send -a "theme-switch" -t 2500 "Theme: $LABEL" "Switched Hyprland, Waybar, Kitty, Fuzzel, Mako & Wallpaper" 2>/dev/null || true
+    notify-send -a "theme-switch" -t 2500 "Theme: $LABEL" "Switched Hyprland, Waybar, Foot, Fuzzel, Mako & Wallpaper" 2>/dev/null || true
 fi

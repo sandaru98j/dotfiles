@@ -11,14 +11,15 @@ fi
 
 PACKAGES=(
     btop
+    foot
     fuzzel
     git
     gtk
     hypr
-    kitty
     mako
     mpv
     neofetch
+    nnn
     scripts
     waybar
     xdg

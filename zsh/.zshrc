@@ -73,5 +73,33 @@ if [[ -n "${terminfo[kcbt]}" ]]; then
   bindkey -M menuselect "${terminfo[kcbt]}" reverse-menu-complete
 fi
 
+# =============================================================================
+# nnn File Manager (imv, mpv, zathura, cmus)
+# =============================================================================
+export EDITOR="${EDITOR:-vim}"
+export VISUAL="${VISUAL:-vim}"
+export TERMINAL="${TERMINAL:-footclient}"
+export PAGER="${PAGER:-less -R}"
+
+export NNN_OPENER="$XDG_CONFIG_HOME/nnn/plugins/nuke"
+export NNN_OPTS="cdH"
+export NNN_PLUG='c:cmusq;i:imgview'
+
+# Quit-cd wrapper for nnn (use `n` to launch and cd on quit)
+n() {
+  if [ "${NNNLVL:-0}" -ge 1 ]; then
+    echo "nnn is already running"
+    return
+  fi
+
+  export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+  command nnn "$@"
+
+  if [ -f "$NNN_TMPFILE" ]; then
+    . "$NNN_TMPFILE"
+    rm -f -- "$NNN_TMPFILE" > /dev/null
+  fi
+}
+
 # Minimal, snappy prompt (zero git-status latency)
 PS1='%F{cyan}%n%f@%F{blue}%m%f %F{magenta}%~%f %F{white}%#%f '

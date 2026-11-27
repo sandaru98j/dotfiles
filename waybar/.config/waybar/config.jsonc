@@ -55,7 +55,7 @@
             "headphone": "󰋋",
             "default": ["󰕿", "󰖀", "󰕾"]
         },
-        "on-click": "kitty -e pulsemixer",
+        "on-click": "footclient pulsemixer",
         "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
         "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
@@ -69,7 +69,7 @@
         "tooltip-format-wifi": "{essid} ({signalStrength}%) — {ipaddr}",
         "tooltip-format-ethernet": "{ifname} — {ipaddr}",
         "tooltip-format-disconnected": "Disconnected",
-        "on-click": "kitty -e iwctl"
+        "on-click": "footclient iwctl"
     },
 
     "bluetooth": {
@@ -81,7 +81,7 @@
         "tooltip-format": "{controller_alias}\t{controller_address}",
         "tooltip-format-connected": "{controller_alias}\n{device_enumerate}",
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-        "on-click": "kitty -e bluetoothctl"
+        "on-click": "footclient bluetoothctl"
     },
 
     "cpu": {

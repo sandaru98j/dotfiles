@@ -1,0 +1,91 @@
+#!/usr/bin/env sh
+
+# Description: Add nnn selection or hovered file/directory to cmus play queue
+# Adapted for Wayland/Hyprland with footclient (fallback: foot)
+
+TERMINAL="${TERMINAL:-footclient}"
+
+if ! command -v cmus >/dev/null 2>&1 || ! command -v cmus-remote >/dev/null 2>&1; then
+    printf "cmus not installed. Install with: sudo pacman -S cmus\n"
+    printf "Press Enter to continue..."
+    read -r _
+    exit 1
+fi
+
+selection="${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}"
+
+abspath() {
+    if command -v realpath >/dev/null 2>&1; then
+        realpath -s -- "$1"
+    else
+        case "$1" in
+            /*) printf '%s\n' "$1" ;;
+            *)  printf '%s\n' "$PWD/$1" ;;
+        esac
+    fi
+}
+
+detach() {
+    if command -v setsid >/dev/null 2>&1; then
+        setsid -f "$@" </dev/null >/dev/null 2>&1
+    else
+        nohup "$@" </dev/null >/dev/null 2>&1 &
+    fi
+}
+
+start_cmus() {
+    case "$TERMINAL" in
+        footclient)
+            footclient -N -T cmus cmus >/dev/null 2>&1 || detach foot -T cmus cmus
+            ;;
+        foot)
+            detach foot -T cmus cmus
+            ;;
+        kitty|gnome-terminal|st)
+            detach "$TERMINAL" -- cmus
+            ;;
+        *)
+            detach "$TERMINAL" -e cmus
+            ;;
+    esac
+
+    i=0
+    while ! cmus-remote -C >/dev/null 2>&1; do
+        i=$((i + 1))
+        [ "$i" -ge 30 ] && return 1
+        sleep 0.1
+    done
+}
+
+fill_queue() {
+    if [ "${REPLY:-c}" = "s" ]; then
+        xargs -0 cmus-remote -q < "$selection"
+    elif [ -n "${1:-}" ]; then
+        cmus-remote -q "$(abspath "$1")"
+    fi
+}
+
+REPLY="c"
+if [ -s "$selection" ]; then
+    printf "Queue [s]election or [c]urrently hovered? [default=c]: "
+    read -r REPLY
+fi
+
+if ! cmus-remote -C >/dev/null 2>&1; then
+    if ! start_cmus; then
+        printf "Failed to start cmus.\nPress Enter to continue..."
+        read -r _
+        exit 1
+    fi
+    fill_queue "${1:-}"
+    cmus-remote -p
+else
+    fill_queue "${1:-}"
+fi
+
+cmus-remote -C "view 4" >/dev/null 2>&1
+
+# Clear nnn selection if active
+if [ -n "${NNN_PIPE:-}" ] && [ -p "$NNN_PIPE" ]; then
+    printf "-" > "$NNN_PIPE"
+fi

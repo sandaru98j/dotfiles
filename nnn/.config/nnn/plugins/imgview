@@ -1,0 +1,64 @@
+#!/usr/bin/env sh
+
+# Description: Open hovered image or current directory in imv (Wayland-native)
+
+viewer=""
+if command -v imv >/dev/null 2>&1; then
+    viewer="imv"
+elif command -v imv-wayland >/dev/null 2>&1; then
+    viewer="imv-wayland"
+else
+    printf "imv not installed. Install with: sudo pacman -S imv\n"
+    printf "Press Enter to continue..."
+    read -r _
+    exit 1
+fi
+
+target="${1:-.}"
+if command -v realpath >/dev/null 2>&1; then
+    target="$(realpath -s -- "$target")"
+else
+    case "$target" in
+        /*) ;;
+        *)  target="$PWD/$target" ;;
+    esac
+fi
+
+if [ -d "$target" ]; then
+    dir="$target"
+else
+    dir="${target%/*}"
+    dir="${dir:-/}"
+fi
+
+tmp="${TMPDIR:-/tmp}/nnn_imgview_$$"
+trap 'rm -f -- "$tmp"' EXIT
+
+find -L "$dir" -maxdepth 1 -type f -print0 2>/dev/null \
+    | grep -izZE '\.(jpe?g|png|gif|webp|tiff?|bmp|ico|svg|avif|jxl|heic|heif)$' \
+    | sort -zV > "$tmp" || true
+
+if [ ! -s "$tmp" ]; then
+    printf "No images found in %s\nPress Enter to continue..." "$dir"
+    read -r _
+    exit 0
+fi
+
+count=""
+if [ -f "$target" ]; then
+    count="$(grep -a -m 1 -ZzxnF "$target" "$tmp" | cut -d: -f1 || true)"
+fi
+
+if [ -n "$count" ]; then
+    if command -v setsid >/dev/null 2>&1; then
+        xargs -0 setsid -f "$viewer" -n "$count" -- < "$tmp" >/dev/null 2>&1
+    else
+        xargs -0 nohup "$viewer" -n "$count" -- < "$tmp" >/dev/null 2>&1 &
+    fi
+else
+    if command -v setsid >/dev/null 2>&1; then
+        xargs -0 setsid -f "$viewer" -- < "$tmp" >/dev/null 2>&1
+    else
+        xargs -0 nohup "$viewer" -- < "$tmp" >/dev/null 2>&1 &
+    fi
+fi
