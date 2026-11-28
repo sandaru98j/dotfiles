@@ -25,3 +25,11 @@ map i recolor
 
 # Active theme (symlinked by ~/.local/bin/theme-switch)
 include theme
+
+# Local TTS Reader (Kokoro-82M)
+map <F8> exec "/home/rue/tts-reader/.venv/bin/python /home/rue/tts-reader/reader.py --file \"$FILE\" --page \"$PAGE\""
+map [fullscreen] <F8> exec "/home/rue/tts-reader/.venv/bin/python /home/rue/tts-reader/reader.py --file \"$FILE\" --page \"$PAGE\""
+map <F7> exec "/home/rue/tts-reader/.venv/bin/python /home/rue/tts-reader/reader.py --clip"
+map [fullscreen] <F7> exec "/home/rue/tts-reader/.venv/bin/python /home/rue/tts-reader/reader.py --clip"
+map <F9> exec "/home/rue/tts-reader/.venv/bin/python /home/rue/tts-reader/reader.py --stop"
+map [fullscreen] <F9> exec "/home/rue/tts-reader/.venv/bin/python /home/rue/tts-reader/reader.py --stop"
